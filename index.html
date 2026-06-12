@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>지금, 붓다라면 — 현대 사회를 보는 부처님의 시선</title>
+<meta name="theme-color" content="#0D1322" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F0E1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1322">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="붓다라면">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@300;500;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #141B2E;
+    --deep: #0D1322;
+    --gold: #C9A45C;
+    --gold-light: #E8D5A8;
+    --muted: #8B93A7;
+    --seal: #B8543F;
+    --panel: #1A2340;
+    --line: rgba(201, 164, 92, 0.25);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--deep);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,164,92,0.06), transparent),
+      radial-gradient(ellipse 60% 40% at 50% 110%, rgba(26,35,64,0.8), transparent);
+    color: var(--gold-light);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    line-height: 1.75;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 96px; }
+
+  header { text-align: center; padding: 64px 0 36px; }
+  .enso { width: 84px; height: 84px; margin: 0 auto 28px; }
+  .enso svg { width: 100%; height: 100%; }
+  .enso circle {
+    fill: none; stroke: var(--gold); stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 230 260;
+    transform-origin: center;
+    transform: rotate(-70deg);
+    opacity: 0.9;
+  }
+  h1 {
+    font-family: 'Gowun Batang', serif;
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    font-weight: 700; color: var(--gold);
+    letter-spacing: 0.35em; text-indent: 0.35em;
+    margin-bottom: 14px;
+  }
+  .hanja {
+    font-family: 'Noto Serif KR', serif; font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.6em; text-indent: 0.6em;
+    font-size: 0.85rem; margin-bottom: 20px;
+  }
+  .tagline { color: var(--muted); font-size: 0.95rem; max-width: 420px; margin: 0 auto; }
+
+  .daily {
+    margin: 0 0 36px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 24px 12px; text-align: center;
+  }
+  .daily-label {
+    font-family: 'Noto Serif KR', serif;
+    color: var(--seal); font-size: 0.75rem;
+    letter-spacing: 0.4em; text-indent: 0.4em;
+    margin-bottom: 12px;
+  }
+  .daily-text {
+    font-family: 'Gowun Batang', serif;
+    color: var(--gold-light);
+    font-size: 1.02rem; line-height: 2; word-break: keep-all;
+  }
+  .daily-source { color: var(--muted); font-size: 0.8rem; margin-top: 10px; letter-spacing: 0.15em; }
+  .daily-source::before { content: '— '; }
+
+  .ask {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px; padding: 28px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  }
+  .ask label {
+    display: block;
+    font-family: 'Noto Serif KR', serif; font-weight: 500;
+    color: var(--gold); font-size: 0.9rem;
+    letter-spacing: 0.15em; margin-bottom: 14px;
+  }
+  textarea, input[type="password"] {
+    width: 100%;
+    background: var(--deep);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--gold-light);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300; font-size: 1rem;
+    padding: 14px 16px;
+    transition: border-color 0.25s;
+  }
+  textarea { min-height: 140px; line-height: 1.8; resize: vertical; padding: 18px; }
+  textarea::placeholder, input::placeholder { color: rgba(139,147,167,0.55); }
+  textarea:focus, input:focus { outline: none; border-color: var(--gold); }
+  textarea:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .modes { display: flex; gap: 10px; margin: 18px 0 4px; }
+  .mode {
+    flex: 1;
+    background: var(--deep);
+    border: 1px solid var(--line);
+    border-radius: 3px; color: var(--muted);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.9rem; letter-spacing: 0.1em;
+    padding: 12px 8px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mode.active { border-color: var(--gold); color: var(--gold); background: rgba(201,164,92,0.08); }
+
+  .examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .chip {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.8rem; padding: 6px 14px;
+    border-radius: 999px; cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .chip:hover { color: var(--gold); border-color: var(--gold); }
+
+  .go {
+    display: block; width: 100%;
+    margin-top: 22px;
+    background: var(--gold); color: var(--deep);
+    border: none; border-radius: 3px;
+    font-family: 'Noto Serif KR', serif; font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.4em; text-indent: 0.4em;
+    padding: 16px; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .go:hover { background: var(--gold-light); }
+  .go:active { transform: scale(0.99); }
+  .go:disabled { opacity: 0.45; cursor: wait; }
+
+  .keybox { margin-top: 18px; }
+  .keybox summary {
+    cursor: pointer; color: var(--muted);
+    font-size: 0.82rem; letter-spacing: 0.08em;
+    list-style: none; user-select: none;
+  }
+  .keybox summary::before { content: '⚙ '; color: var(--gold); }
+  .keybox[open] summary { color: var(--gold); margin-bottom: 12px; }
+  .keybox .hint { color: var(--muted); font-size: 0.78rem; margin-top: 10px; line-height: 1.7; }
+  .keybox .hint a { color: var(--gold); }
+
+  .loading { display: none; text-align: center; padding: 56px 0; }
+  .loading.show { display: block; }
+  .loading .enso { width: 56px; height: 56px; }
+  .loading .enso circle { animation: enso-draw 2.4s ease-in-out infinite; }
+  @keyframes enso-draw {
+    0%   { stroke-dashoffset: 230; opacity: 0.3; }
+    50%  { stroke-dashoffset: 0;   opacity: 1; }
+    100% { stroke-dashoffset: -230; opacity: 0.3; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loading .enso circle { animation: none; opacity: 0.8; }
+    .panel { animation: none !important; }
+  }
+  .loading p { color: var(--muted); font-size: 0.9rem; margin-top: 16px; letter-spacing: 0.1em; }
+
+  /* 답변 출처 배지 */
+  .source-badge {
+    text-align: center; margin-bottom: 32px;
+    color: var(--muted); font-size: 0.78rem; letter-spacing: 0.15em;
+  }
+  .source-badge em {
+    font-style: normal; color: var(--gold);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 4px 16px;
+  }
+
+  #result { margin-top: 56px; }
+  .panel { margin-bottom: 40px; animation: rise 0.7s ease both; }
+  .panel:nth-child(2) { animation-delay: 0.12s; }
+  .panel:nth-child(3) { animation-delay: 0.24s; }
+  .panel:nth-child(4) { animation-delay: 0.36s; }
+  .panel:nth-child(5) { animation-delay: 0.48s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .panel-label { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .panel-label span {
+    font-family: 'Noto Serif KR', serif; font-weight: 500;
+    color: var(--gold); font-size: 0.85rem;
+    letter-spacing: 0.3em; white-space: nowrap;
+  }
+  .panel-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .panel-body { color: var(--gold-light); font-size: 0.98rem; }
+  .panel-body p + p { margin-top: 12px; }
+
+  .sutra {
+    background: var(--panel);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 44px 36px 36px;
+    text-align: center; position: relative;
+    box-shadow: 0 0 60px rgba(201,164,92,0.08) inset, 0 16px 48px rgba(0,0,0,0.4);
+  }
+  .sutra::before {
+    content: attr(data-seal); position: absolute; top: 18px; left: 22px;
+    font-family: 'Noto Serif KR', serif;
+    color: var(--seal);
+    border: 1.5px solid var(--seal); border-radius: 3px;
+    width: 30px; height: 30px; line-height: 30px;
+    font-size: 0.95rem; opacity: 0.85;
+  }
+  .sutra-text {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    color: var(--gold);
+    font-size: clamp(1.1rem, 3.2vw, 1.35rem);
+    line-height: 2.1; word-break: keep-all;
+  }
+  .sutra-source {
+    margin-top: 22px; color: var(--muted);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.85rem; letter-spacing: 0.2em;
+  }
+  .sutra-source::before { content: '— '; }
+
+  .sage { margin-bottom: 28px; }
+  .sage-name {
+    font-family: 'Gowun Batang', serif;
+    color: var(--gold); font-size: 1.05rem;
+    letter-spacing: 0.2em; margin-bottom: 10px;
+  }
+  .sage-view { color: var(--gold-light); font-size: 0.95rem; margin-bottom: 14px; }
+  .sage .sutra { padding: 30px 26px 26px; }
+  .sage .sutra-text { font-size: 1.05rem; }
+
+  .practice-list { list-style: none; }
+  .practice-list li {
+    padding: 14px 0 14px 34px; position: relative;
+    border-bottom: 1px solid rgba(201,164,92,0.12);
+  }
+  .practice-list li:last-child { border-bottom: none; }
+  .practice-list li::before {
+    content: '●'; position: absolute; left: 6px; top: 16px;
+    color: var(--gold); font-size: 0.5rem;
+  }
+
+  .save-card {
+    display: block; margin: 8px auto 0;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold); border-radius: 3px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.9rem; letter-spacing: 0.2em;
+    padding: 12px 32px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .save-card:hover { background: var(--gold); color: var(--deep); }
+
+  .error {
+    display: none; margin-top: 32px;
+    border: 1px solid var(--seal); border-radius: 3px;
+    padding: 18px 22px; color: #E0A192; font-size: 0.9rem;
+  }
+  .error.show { display: block; }
+
+  footer {
+    text-align: center; margin-top: 72px;
+    color: rgba(139,147,167,0.5); font-size: 0.78rem; letter-spacing: 0.1em;
+  }
+
+  /* ═══════════ 모바일 최적화 (480px 이하) ═══════════ */
+  /* 터치 기본기: 모든 버튼 최소 44px 터치 영역 */
+  button { min-height: 44px; touch-action: manipulation; -webkit-tap-highlight-color: rgba(201,164,92,0.15); }
+  .chip { min-height: 36px; }
+  /* iOS 노치·홈바 안전 영역 */
+  body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+  footer { padding-bottom: calc(env(safe-area-inset-bottom) + 8px); }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 0 16px 72px; }
+    header { padding: 44px 0 24px; }
+    .enso { width: 64px; height: 64px; margin-bottom: 20px; }
+    h1 { font-size: 1.8rem; letter-spacing: 0.22em; text-indent: 0.22em; }
+    .hanja { font-size: 0.75rem; letter-spacing: 0.4em; text-indent: 0.4em; }
+    .tagline { font-size: 0.88rem; }
+
+    .daily { padding: 18px 4px; margin-bottom: 28px; }
+    .daily-text { font-size: 0.95rem; }
+
+    .ask { padding: 18px 16px; }
+    textarea { min-height: 110px; padding: 14px; }
+
+    /* 모드 버튼: 세로로 쌓기 */
+    .modes { flex-direction: column; gap: 8px; }
+    .mode { padding: 13px 8px; }
+
+    /* 예시 칩: 한 줄 가로 스크롤 (엄지로 슥 넘기기) */
+    .examples {
+      flex-wrap: nowrap; overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin-left: -16px; margin-right: -16px;
+      padding: 2px 16px;
+    }
+    .examples::-webkit-scrollbar { display: none; }
+    .chip { flex: 0 0 auto; white-space: nowrap; }
+
+    .go { padding: 15px; font-size: 1rem; letter-spacing: 0.3em; text-indent: 0.3em; }
+
+    #result { margin-top: 40px; }
+    .panel { margin-bottom: 32px; }
+    .sutra { padding: 36px 20px 28px; }
+    .sutra-text { font-size: 1.08rem; line-height: 2; }
+    .sutra::before { top: 12px; left: 14px; width: 26px; height: 26px; line-height: 26px; font-size: 0.85rem; }
+    .sage .sutra { padding: 26px 18px 22px; }
+
+    .practice-list li { padding: 12px 0 12px 28px; }
+    .save-card { width: 100%; padding: 14px; }
+    footer { margin-top: 48px; }
+  }
+
+  /* 아주 작은 화면 (폴드 외부 화면 등) */
+  @media (max-width: 340px) {
+    h1 { font-size: 1.5rem; }
+    .sutra-text { font-size: 1rem; }
+  }
+
+  /* ═══════════ 라이트 모드 (기기 설정 자동 감지) ═══════════
+     밤: 감지금니(紺紙金泥) — 남빛 종이에 금물
+     낮: 한지묵서(韓紙墨書) — 한지에 먹과 금니 */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --paper: #F6F0E1;
+      --deep: #F1E9D5;
+      --gold: #8C6B2E;        /* 금니: 낮에는 진한 금 */
+      --gold-light: #2F2A20;  /* 본문: 먹색 */
+      --muted: #837762;
+      --seal: #A8432F;
+      --panel: #FCF8EC;
+      --line: rgba(140, 107, 46, 0.35);
+    }
+    body {
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(140,107,46,0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 50% 110%, rgba(230,219,193,0.9), transparent);
+    }
+    .ask { box-shadow: 0 10px 28px rgba(75,58,25,0.10); }
+    .sutra {
+      box-shadow: 0 0 50px rgba(140,107,46,0.06) inset, 0 12px 32px rgba(75,58,25,0.12);
+    }
+    textarea::placeholder, input::placeholder { color: rgba(131,119,98,0.7); }
+    .error { color: #8F3A28; background: rgba(168,67,47,0.06); }
+    footer { color: rgba(131,119,98,0.7); }
+  }
+
+  /* ═══════════ 오늘의 법문 위젯 모드 (?view=daily) ═══════════ */
+  #dailyOnly {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 32px 28px calc(32px + env(safe-area-inset-bottom));
+    gap: 0;
+  }
+  #dailyOnly .enso { width: 64px; height: 64px; margin-bottom: 28px; }
+  #dailyOnly .dw-label {
+    font-family: 'Noto Serif KR', serif;
+    color: var(--seal); font-size: 0.78rem;
+    letter-spacing: 0.45em; text-indent: 0.45em;
+    margin-bottom: 26px;
+  }
+  #dailyOnly .dw-text {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    color: var(--gold);
+    font-size: clamp(1.25rem, 5.5vw, 1.7rem);
+    line-height: 2.15; word-break: keep-all;
+    max-width: 560px;
+  }
+  #dailyOnly .dw-source {
+    margin-top: 26px; color: var(--muted);
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.88rem; letter-spacing: 0.2em;
+  }
+  #dailyOnly .dw-source::before { content: '— '; }
+  #dailyOnly .dw-date {
+    margin-top: 10px; color: var(--muted);
+    font-size: 0.78rem; opacity: 0.8;
+  }
+  #dailyOnly .dw-open {
+    margin-top: 44px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold); border-radius: 999px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.9rem; letter-spacing: 0.25em; text-indent: 0.25em;
+    padding: 13px 36px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  #dailyOnly .dw-open:hover { background: var(--gold); color: var(--deep); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="enso" aria-hidden="true">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>
+    </div>
+    <h1>지금, 붓다라면</h1>
+    <div class="hanja">如 是 我 聞 · 이와 같이 나는 들었다</div>
+    <p class="tagline">뉴스 기사나 고민되는 상황을 들려주세요.<br>옛 성현의 가르침으로 그 상황을 비추어 봅니다.</p>
+  </header>
+
+  <section class="daily" id="daily">
+    <div class="daily-label">오늘의 법문</div>
+    <div class="daily-text" id="dailyText"></div>
+    <div class="daily-source" id="dailySource"></div>
+  </section>
+
+  <section class="ask">
+    <label for="situation">묻고 싶은 상황</label>
+    <textarea id="situation" placeholder="예) 층간소음 갈등이 폭력 사건으로 번졌다는 기사를 봤어요. 이 갈등을 어떻게 보아야 할까요?"></textarea>
+
+    <div class="modes" role="radiogroup" aria-label="관점 선택">
+      <button class="mode active" type="button" data-mode="buddha" role="radio" aria-checked="true">붓다의 시선</button>
+      <button class="mode" type="button" data-mode="compare" role="radio" aria-checked="false">삼현 비교 · 붓다 孔 老</button>
+    </div>
+
+    <div class="examples">
+      <button class="chip" type="button">SNS 비교로 인한 우울감</button>
+      <button class="chip" type="button">직장 내 경쟁과 번아웃</button>
+      <button class="chip" type="button">기후 위기와 소비 문화</button>
+      <button class="chip" type="button">혐오 댓글과 분노 여론</button>
+    </div>
+
+    <button class="go" id="goBtn" type="button">지혜를 구합니다</button>
+
+    <details class="keybox" id="keybox">
+      <summary>선택 사항 · AI 맞춤 분석 설정</summary>
+      <input type="password" id="apiKey" placeholder="sk-ant-... (Anthropic API 키, 없어도 동작합니다)" autocomplete="off">
+      <p class="hint">
+        이 앱은 <strong>키 없이도 내장 경장(經藏) 지혜 사전</strong>으로 답합니다.
+        더 깊은 맞춤 분석을 원하면 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>에서
+        API 키를 발급받아 입력하세요. 키는 저장되지 않고 화면이 열려 있는 동안만 사용돼요.
+      </p>
+    </details>
+  </section>
+
+  <div class="loading" id="loading" role="status">
+    <div class="enso" aria-hidden="true">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>
+    </div>
+    <p>고요히 비추어 보는 중…</p>
+  </div>
+
+  <div class="error" id="errorBox"></div>
+
+  <main id="result" aria-live="polite"></main>
+
+  <footer>紺紙金泥 · 깊은 남빛 위에 금물로 쓰다</footer>
+</div>
+
+<div id="dailyOnly" hidden>
+  <div class="enso" aria-hidden="true">
+    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>
+  </div>
+  <div class="dw-label">오늘의 법문</div>
+  <div class="dw-text"></div>
+  <div class="dw-source"></div>
+  <div class="dw-date"></div>
+  <button class="dw-open" type="button" onclick="location.href='./index.html'">전체 앱 열기</button>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const textarea = $('#situation');
+const goBtn = $('#goBtn');
+const loading = $('#loading');
+const result = $('#result');
+const errorBox = $('#errorBox');
+const keyInput = $('#apiKey');
+
+let currentMode = 'buddha';
+let lastWisdom = null;
+let lastMode = 'buddha';
+
+/* ───────── 오늘의 법문 ───────── */
+const DAILY_VERSES = [
+  { text: "모든 일은 마음이 근본이다. 마음에서 나와 마음으로 이루어진다.", source: "법구경 제1게" },
+  { text: "원한은 원한으로 풀리지 않는다. 원한을 놓을 때 비로소 풀리나니, 이것은 영원한 진리다.", source: "법구경 제5게" },
+  { text: "소리에 놀라지 않는 사자처럼, 그물에 걸리지 않는 바람처럼, 무소의 뿔처럼 혼자서 가라.", source: "숫타니파타" },
+  { text: "건강은 가장 큰 이익이요, 만족은 가장 큰 재산이다.", source: "법구경 제204게" },
+  { text: "잠 못 드는 자에게 밤은 길고, 피곤한 자에게 길은 멀다.", source: "법구경 제60게" },
+  { text: "남의 허물은 보기 쉬우나 자기의 허물은 보기 어렵다.", source: "법구경 제252게" },
+  { text: "전쟁에서 백만 대군을 이기는 것보다 자기 자신을 이기는 사람이 가장 위대한 승리자다.", source: "법구경 제103게" },
+  { text: "응당 머무는 바 없이 그 마음을 내라. (應無所住而生其心)", source: "금강경" },
+  { text: "꽃향기는 바람을 거스르지 못하지만, 덕 있는 사람의 향기는 바람을 거슬러 사방에 퍼진다.", source: "법구경 제54게" },
+  { text: "일체의 존재는 행복하라. 평안하라. 안락하라.", source: "숫타니파타 자비경" },
+  { text: "과거를 따라가지 말고 미래를 기대하지 말라. 다만 현재의 일을 자세히 살펴 흔들림 없이 행하라.", source: "맛지마 니까야" },
+  { text: "성내는 사람에게 성내지 않는 것, 그것이 이기기 어려운 싸움에서 이기는 길이다.", source: "상윳타 니까야" },
+  { text: "물방울이 모여 항아리를 채우듯, 작은 선이 쌓여 큰 선을 이룬다.", source: "법구경 제122게" },
+  { text: "자기야말로 자신의 의지처, 자기를 두고 어디에 의지하랴.", source: "법구경 제160게" },
+  { text: "탐욕보다 더한 불길이 없고, 성냄보다 더한 독이 없다.", source: "법구경 제202게" }
+];
+function todaysVerse() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((now - start) / 86400000);
+  return DAILY_VERSES[dayOfYear % DAILY_VERSES.length];
+}
+(function showDaily() {
+  const v = todaysVerse();
+  $('#dailyText').textContent = v.text;
+  $('#dailySource').textContent = v.source;
+})();
+/* ── 위젯 모드: index.html?view=daily 로 열면 오늘의 법문만 전체 화면 ──
+   PWA 설치 후 앱 아이콘을 길게 누르면 나오는 바로가기에도 연결됩니다 */
+(function widgetMode() {
+  if (new URLSearchParams(location.search).get('view') !== 'daily') return;
+  const v = todaysVerse();
+  document.querySelector('.wrap').hidden = true;
+  const el = document.getElementById('dailyOnly');
+  el.hidden = false;
+  el.querySelector('.dw-text').textContent = v.text;
+  el.querySelector('.dw-source').textContent = v.source;
+  el.querySelector('.dw-date').textContent =
+    new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+  document.title = '오늘의 법문 — 지금, 붓다라면';
+})();
+
+/* ═════════ 내장 경장(經藏) 지혜 사전 — API 키 없이 동작하는 핵심 엔진 ═════════ */
+const WISDOM_DB = [
+  {
+    id: 'anger',
+    strong: ['분노','폭력','층간소음','폭행','보복','열받','빡치','빡쳐','갈등'],
+    keywords: ['분노','화가','화를','갈등','싸움','폭력','다툼','층간소음','시비','보복','복수','격분','난동','폭행','언쟁','충돌'],
+    analysis: "이 상황의 뿌리에는 성냄(瞋)이 있습니다. 불교는 분노를 '손에 쥔 뜨거운 숯'에 비유합니다. 상대에게 던지려고 쥐는 순간 가장 먼저 데이는 것은 내 손입니다.\n\n또한 연기(緣起)의 눈으로 보면, 갈등은 한 사람의 악의가 아니라 피로, 불안, 오해, 환경이 서로 조건이 되어 일어난 결과입니다. '저 사람이 나쁘다'에서 '어떤 조건들이 이 화를 만들었나'로 시선을 옮길 때 풀 수 있는 매듭이 보이기 시작합니다.",
+    buddha_view: "부처님은 자신을 향해 욕설을 퍼붓는 사람에게 이렇게 물으셨습니다. \"그대가 선물을 가져왔는데 내가 받지 않으면 그 선물은 누구의 것인가?\" 욕설도 받지 않으면 던진 사람에게 돌아간다는 가르침입니다.\n\n부처님이라면 먼저 화가 일어나는 순간을 알아차리고, 즉각 반응하는 대신 한 호흡을 두라고 하셨을 것입니다. 그리고 상대 역시 괴로움 속에 있는 존재임을 보라고, 자비는 상대를 위한 것이기 이전에 내 마음의 불을 끄는 물임을 일러주셨을 것입니다.",
+    sutras: [
+      { text: "원한은 원한으로 풀리지 않는다. 원한을 놓을 때 비로소 풀리나니, 이것은 영원한 진리다.", source: "법구경 제5게" },
+      { text: "성냄은 온화함으로 이기고, 악은 선으로 이기라. 인색함은 베풂으로 이기고, 거짓은 진실로 이기라.", source: "법구경 제223게" },
+      { text: "성내는 사람에게 성내지 않는 것, 그것이 이기기 어려운 싸움에서 이기는 길이다.", source: "상윳타 니까야" }
+    ],
+    confucius: { view: "공자라면 서(恕), 곧 '내 마음을 미루어 남을 헤아림'을 말했을 것입니다. 갈등의 자리에서 먼저 묻는 것입니다 — 내가 같은 처지라면 어떠했을까.", quote: "자기가 원하지 않는 것을 남에게 베풀지 말라. (己所不欲 勿施於人)", source: "논어 안연편" },
+    laozi: { view: "노자라면 이기려는 마음 자체를 내려놓으라 했을 것입니다. 정말 잘 싸우는 사람은 분노로 싸우지 않습니다. 부드러움이 단단함을 이깁니다.", quote: "잘 싸우는 자는 성내지 않는다. (善戰者不怒)", source: "도덕경 제68장" },
+    practice: [
+      "화가 올라오는 순간, 말하기 전에 의식적으로 세 번 호흡하기 — 분노와 반응 사이에 틈을 만드는 연습입니다.",
+      "오늘 갈등 상대의 입장을 한 문장으로 적어보기. '그 사람도 ~해서 그랬을 수 있다.'",
+      "잠들기 전, 미운 사람을 떠올리며 '그 사람도 평안하기를' 하고 속으로 한 번 빌어보기(자비 명상)."
+    ]
+  },
+  {
+    id: 'compare',
+    strong: ['질투','박탈감','열등감','비교'],
+    keywords: ['비교','질투','부러','열등감','SNS','sns','인스타','자랑','박탈감','남들은','상대적','과시','명품','팔로워'],
+    analysis: "SNS 속 타인의 삶과 나를 견주는 괴로움의 뿌리는 탐(貪), 곧 '지금의 나'가 아닌 다른 무엇이 되고 싶은 갈애입니다. 비교는 끝이 없습니다. 한 사람을 따라잡으면 그 위에 또 다른 사람이 보이기 때문입니다.\n\n무상(無常)의 눈으로 보면 화면 속 빛나는 한 장면은 그 사람 삶의 전부가 아니라 편집된 한 순간입니다. 변하는 한 컷과 나의 전체 삶을 견주는 것은 처음부터 공정한 저울이 아닙니다.",
+    buddha_view: "부처님은 수행자들에게 '남이 얻은 것을 부러워하는 자는 삼매에 들지 못한다'고 하셨습니다. 시선이 밖을 향해 있는 한 마음은 고요해질 수 없다는 뜻입니다.\n\n부처님이라면 비교가 일어나는 그 마음을 탓하기보다, 그것을 알아차리는 것에서 시작하라 하셨을 것입니다. '아, 지금 부러움이 일어났구나' 하고 이름 붙이는 순간 우리는 감정에 휩쓸리는 자에서 감정을 바라보는 자로 자리를 옮깁니다. 그리고 시선을 내가 이미 가진 것, 오늘 내가 할 수 있는 작은 선(善)으로 돌리라 하셨을 것입니다.",
+    sutras: [
+      { text: "자기가 얻은 것을 가볍게 여기지 말고, 남이 얻은 것을 부러워하지 말라. 남을 부러워하는 수행자는 마음의 평온을 얻지 못한다.", source: "법구경 제365게" },
+      { text: "건강은 가장 큰 이익이요, 만족은 가장 큰 재산이다.", source: "법구경 제204게" }
+    ],
+    confucius: { view: "공자라면 남의 인정에 마음 쓰지 말고 나의 실력과 덕을 기르는 데 집중하라 했을 것입니다. 군자의 시선은 밖이 아니라 자기 안을 향합니다.", quote: "남이 나를 알아주지 않음을 걱정하지 말고, 내가 남을 알지 못함을 걱정하라. (不患人之不己知 患不知人也)", source: "논어 학이편" },
+    laozi: { view: "노자라면 만족을 아는 것이 진짜 부유함이라 했을 것입니다. 남과 견주는 잣대를 버리는 순간, 이미 가진 것이 충분해집니다.", quote: "남을 아는 자는 지혜롭고, 자신을 아는 자는 밝다. 족함을 아는 자가 부유하다. (知人者智 自知者明 知足者富)", source: "도덕경 제33장" },
+    practice: [
+      "비교 감정이 올라온 순간을 하루 한 번 기록하기 — '언제, 무엇을 보고, 어떤 느낌이었나' 세 칸이면 충분합니다.",
+      "SNS 사용 전후로 기분 점수(1~10)를 매겨보고, 점수를 떨어뜨리는 계정은 일주일만 숨기기.",
+      "잠들기 전 오늘 감사한 것 세 가지를 적기 — 시선을 '없는 것'에서 '있는 것'으로 돌리는 훈련입니다."
+    ]
+  },
+  {
+    id: 'anxiety',
+    strong: ['불안','걱정','두려','초조'],
+    keywords: ['불안','걱정','두려','미래','공포','초조','시험','면접','막막','잠이 안','긴장','불확실'],
+    analysis: "불안은 대부분 '아직 오지 않은 미래'를 마음이 미리 사는 데서 옵니다. 부처님은 우리가 화살을 두 번 맞는다고 하셨습니다. 첫 번째 화살은 실제 일어난 일이고, 두 번째 화살은 그 일을 두고 마음이 만들어내는 걱정과 상상입니다. 괴로움의 대부분은 두 번째 화살입니다.\n\n무상(無常)은 두려운 진리가 아니라 위로이기도 합니다. 지금의 불안한 상황도 영원하지 않으며, 반드시 변해 갑니다.",
+    buddha_view: "부처님이라면 미래를 통제하려는 마음을 내려놓고, 지금 이 순간 발 디딘 자리로 돌아오라 하셨을 것입니다. 호흡을 바라보는 것은 가장 단순하고 오래된 방법입니다. 숨은 언제나 '지금'에만 있기 때문입니다.\n\n또한 걱정과 준비를 구분하라 하셨을 것입니다. 준비는 지금 할 수 있는 행동이고, 걱정은 행동 없는 반복 상영입니다. 할 수 있는 일을 하나 정해 행하고, 나머지는 흐름에 맡기는 것 — 그것이 현재에 깨어 있는 삶입니다.",
+    sutras: [
+      { text: "과거를 따라가지 말고 미래를 기대하지 말라. 다만 현재의 일을 자세히 살펴 흔들림 없이 그것을 행하라.", source: "맛지마 니까야" },
+      { text: "잠 못 드는 자에게 밤은 길고, 피곤한 자에게 길은 멀다.", source: "법구경 제60게" }
+    ],
+    confucius: { view: "공자라면 스스로 돌아보아 부끄러움이 없으면 무엇을 근심하고 무엇을 두려워하겠느냐고 물었을 것입니다. 불안의 해독제는 떳떳하게 오늘을 사는 것입니다.", quote: "군자는 근심하지 않고 두려워하지 않는다. 안으로 살펴 거리낌이 없는데 무엇을 근심하고 두려워하랴. (君子不憂不懼)", source: "논어 안연편" },
+    laozi: { view: "노자라면 마음을 비우고 고요함을 지키라 했을 것입니다. 흙탕물은 휘저어서 맑아지지 않습니다. 가만히 두면 저절로 가라앉습니다.", quote: "비움을 지극히 하고, 고요함을 돈독히 지키라. (致虛極 守靜篤)", source: "도덕경 제16장" },
+    practice: [
+      "걱정이 떠오르면 '통제 가능 / 통제 불가' 두 칸으로 나눠 적고, 가능한 것에서 오늘 할 일 하나만 정하기.",
+      "하루 5분, 들숨과 날숨에만 주의를 두는 호흡 관찰 — 생각이 달아나면 탓하지 말고 그저 다시 숨으로 돌아오기.",
+      "자기 전 30분은 화면을 끄고, 내일 걱정 대신 '오늘 해낸 일' 한 가지를 적기."
+    ]
+  },
+  {
+    id: 'loss',
+    strong: ['죽음','사별','상실','부고','이별'],
+    keywords: ['죽음','죽었','이별','상실','장례','떠나','잃었','사별','헤어','그리워','부고','반려'],
+    analysis: "사랑하는 것과의 이별은 부처님이 말씀하신 여덟 가지 괴로움 중 하나, 애별리고(愛別離苦)입니다. 이 슬픔은 없애야 할 잘못이 아니라, 깊이 사랑했다는 증거입니다.\n\n무상(無常)의 가르침은 차갑게 들리지만 그 본뜻은 따뜻합니다. 모든 만남이 언젠가 흩어지기에, 함께한 시간 하나하나가 그토록 귀했던 것입니다. 슬픔을 억누르는 것도, 슬픔에 영영 머무는 것도 아닌 — 슬픔을 충분히 겪으며 통과하는 길이 있습니다.",
+    buddha_view: "아들을 잃고 실성한 키사고타미가 찾아왔을 때, 부처님은 '죽은 사람이 없는 집에서 겨자씨를 얻어 오라'고 하셨습니다. 온 마을을 돌고 난 그녀는 깨달았습니다. 상실은 나만의 형벌이 아니라 모든 존재가 함께 겪는 강이라는 것을. 그 깨달음이 그녀를 다시 삶으로 데려왔습니다.\n\n부처님이라면 서둘러 괜찮아지라고 하지 않으셨을 것입니다. 다만 슬픔 곁에 고요히 앉아, 그 사랑이 남긴 것을 살아 있는 동안 어떻게 이어갈지를 함께 물으셨을 것입니다.",
+    sutras: [
+      { text: "모든 형성된 것은 무너지기 마련이다. 게으르지 말고 정진하라.", source: "대반열반경 (부처님의 마지막 말씀)" },
+      { text: "자기야말로 자신의 의지처, 자기를 두고 어디에 의지하랴.", source: "법구경 제160게" }
+    ],
+    confucius: { view: "공자는 제자 안연이 죽자 '하늘이 나를 버리시는구나' 하며 통곡했습니다. 성인도 슬픔을 숨기지 않았습니다. 예(禮)란 슬픔을 충분히, 그러나 무너지지 않게 치르는 그릇입니다.", quote: "아직 삶도 알지 못하는데 어찌 죽음을 알겠는가. (未知生 焉知死)", source: "논어 선진편" },
+    laozi: { view: "노자라면 만물이 무성했다가 제 뿌리로 돌아가는 것이 자연의 길이라 했을 것입니다. 돌아감은 끝이 아니라 고요함으로의 복귀입니다.", quote: "만물은 무성하지만, 각기 그 뿌리로 돌아간다. 뿌리로 돌아감을 고요함이라 한다. (夫物芸芸 各復歸其根 歸根曰靜)", source: "도덕경 제16장" },
+    practice: [
+      "슬픔이 밀려올 때 밀어내지 말고 '지금 슬픔이 있구나' 하고 10초만 그대로 머물러 주기.",
+      "떠난 존재에게 부치지 않을 편지 한 통 쓰기 — 고마웠던 것, 미안했던 것, 하지 못한 말.",
+      "그 존재가 내게 남긴 좋은 습관이나 가치 하나를 정해, 일상에서 이어가기."
+    ]
+  },
+  {
+    id: 'greed',
+    strong: ['탐욕','욕심','투기','코인','한탕'],
+    keywords: ['돈','욕심','소비','투자','주식','코인','부동산','대출','한탕','사치','쇼핑','빚','재테크','물욕','탐욕'],
+    analysis: "부처님은 갈애(渴愛)를 '바닷물을 마시는 것'에 비유하셨습니다. 마실수록 더 목마릅니다. 소유가 늘어나는 속도보다 원하는 마음이 자라는 속도가 언제나 빠르기 때문입니다.\n\n불교는 부 자체를 악이라 하지 않습니다. 재가자에게 부처님은 정당하게 벌고, 지혜롭게 쓰고, 빚에 얽매이지 않는 삶을 권하셨습니다. 문제는 돈이 아니라, 돈이 나를 소유하게 되는 전도(顚倒)입니다.",
+    buddha_view: "부처님이라면 먼저 '무엇을 위해 그것을 원하는가'를 묻게 하셨을 것입니다. 안전함인지, 인정인지, 불안의 회피인지 — 욕망의 뿌리를 보면 돈이 줄 수 없는 것을 돈에게 요구하고 있었음이 드러나곤 합니다.\n\n그리고 만족을 아는 것(知足)이 가장 확실한 재산이라 하셨을 것입니다. 이것은 가난하게 살라는 말이 아니라, '충분함'의 기준을 밖의 시세가 아닌 내 안에 세우라는 뜻입니다.",
+    sutras: [
+      { text: "황금이 소나기처럼 쏟아질지라도 욕망은 채워지지 않는다. 욕망에는 짧은 단맛과 긴 괴로움이 있다.", source: "법구경 제186게" },
+      { text: "건강은 가장 큰 이익이요, 만족은 가장 큰 재산이다.", source: "법구경 제204게" },
+      { text: "탐욕보다 더한 불길이 없고, 성냄보다 더한 독이 없다.", source: "법구경 제202게" }
+    ],
+    confucius: { view: "공자는 의롭지 않은 부귀는 뜬구름 같다 했습니다. 가난해도 도를 즐기는 마음이 흔들리지 않는 부의 기준이었습니다.", quote: "거친 밥을 먹고 물을 마시며 팔을 굽혀 베고 눕더라도 즐거움이 그 안에 있다. 의롭지 않은 부귀는 내게 뜬구름과 같다.", source: "논어 술이편" },
+    laozi: { view: "노자라면 채우기를 그칠 줄 아는 것이 오래가는 길이라 했을 것입니다. 그릇은 가득 채우면 넘치고, 칼은 너무 갈면 무뎌집니다.", quote: "족함을 아는 만족이 영원한 만족이다. (知足之足 常足矣)", source: "도덕경 제46장" },
+    practice: [
+      "사고 싶은 것이 생기면 장바구니에 넣고 72시간 기다리기 — 갈애의 단맛은 대부분 사흘을 넘기지 못합니다.",
+      "이번 달 지출을 '필요 / 욕망 / 불안 해소' 세 가지로 분류해 보기.",
+      "수입의 일정 비율(1%라도)을 정해 기부하기 — 베풂은 '나는 이미 충분하다'를 몸에 새기는 가장 빠른 수행입니다."
+    ]
+  },
+  {
+    id: 'burnout',
+    strong: ['번아웃','과로','퇴사','탈진'],
+    keywords: ['번아웃','야근','퇴사','지쳤','피곤','과로','경쟁','승진','직장','상사','업무','출근','워라밸','탈진','일이'],
+    analysis: "끝없는 경쟁과 과로는 '더 빨리, 더 많이'가 미덕이 된 시대의 풍경입니다. 그러나 부처님은 깨달음조차 극단적 고행으로는 얻을 수 없음을 몸소 확인하셨습니다. 6년 고행 끝에 그가 택한 것은 중도(中道), 너무 조이지도 너무 풀지도 않는 길이었습니다.\n\n번아웃은 게으름의 반대말이 아니라, 쉼 없는 성실이 도착하는 막다른 골목입니다. 문제는 노력이 아니라 회복이 빠진 노력입니다.",
+    buddha_view: "거문고 연주자 출신 수행자 소나가 지나친 정진으로 무너져갈 때, 부처님은 물으셨습니다. \"거문고 줄이 너무 팽팽하면 어떠한가?\" \"끊어집니다.\" \"너무 느슨하면?\" \"소리가 나지 않습니다.\" — 수행도 일도 같습니다. 좋은 소리는 알맞은 긴장에서 납니다.\n\n부처님이라면 성과로 자신의 가치를 증명하려는 마음을 내려놓고, 일과 나 사이에 건강한 거리를 두라 하셨을 것입니다. 그대는 그대의 직책이 아닙니다.",
+    sutras: [
+      { text: "거문고 줄은 너무 팽팽하면 끊어지고, 너무 느슨하면 소리가 나지 않는다. 알맞게 고른 줄에서 아름다운 소리가 난다.", source: "앙굿타라 니까야 (소나경)" },
+      { text: "전쟁에서 백만 대군을 이기는 것보다 자기 자신을 이기는 사람이 가장 위대한 승리자다.", source: "법구경 제103게" }
+    ],
+    confucius: { view: "공자라면 억지로 버티는 일과 즐기는 일의 차이를 짚었을 것입니다. 오래가는 힘은 의무감이 아니라 그 일 속에서 찾은 의미에서 나옵니다.", quote: "아는 자는 좋아하는 자만 못하고, 좋아하는 자는 즐기는 자만 못하다. (知之者不如好之者 好之者不如樂之者)", source: "논어 옹야편" },
+    laozi: { view: "노자라면 이루었으면 물러나 쉬는 것이 하늘의 길이라 했을 것입니다. 활시위를 늘 당겨두는 활은 가장 먼저 부러집니다.", quote: "공을 이루면 몸은 물러난다. 그것이 하늘의 도이다. (功遂身退 天之道)", source: "도덕경 제9장" },
+    practice: [
+      "퇴근 후 '일 생각 차단 의식' 하나 만들기 — 산책, 샤워, 음악 등 일과 저녁 사이의 문턱을 정하는 것입니다.",
+      "이번 주 일정에서 회복 시간을 회의처럼 먼저 예약하기(주 2회, 30분이라도).",
+      "'내가 없으면 안 된다'는 생각이 들 때, 위임하거나 거절할 일 한 가지를 정해 실행하기."
+    ]
+  },
+  {
+    id: 'hate',
+    strong: ['혐오','악플','마녀사냥','차별','조리돌림'],
+    keywords: ['혐오','댓글','악플','차별','비난','조리돌림','마녀사냥','논란','욕설','루머','저격','갈라치기','젠더','지역감정'],
+    analysis: "혐오 여론과 악성 댓글의 바탕에는 진(瞋, 미워함)과 치(癡, 어리석음)가 함께 있습니다. 어리석음이란 상대를 입체적 인간이 아니라 하나의 낙인으로 납작하게 보는 것입니다. 낙인은 미움을 쉽게 만들고, 미움은 다시 시야를 좁힙니다.\n\n연기의 눈으로 보면 혐오는 전염됩니다. 한 사람의 거친 말이 조건이 되어 더 거친 말을 낳습니다. 그러나 같은 이치로, 멈춤도 전염됩니다. 누군가 한 명이 되받아치지 않을 때 사슬은 거기서 끊어집니다.",
+    buddha_view: "부처님은 말을 하기 전 세 가지를 살피라 하셨습니다. 그것이 진실한가, 유익한가, 때에 맞는가. 진실이라도 해롭고 때가 아니면 말하지 않으셨습니다.\n\n부처님이라면 혐오의 표적이 된 이에게는 '그 말은 받지 않아도 되는 선물'임을, 혐오에 가담하고 싶은 충동이 이는 이에게는 '그 한 줄의 댓글이 내 입에 먼저 남는 재'임을 일러주셨을 것입니다. 그리고 군중 속에서도 깨어 있는 한 사람이 되라 하셨을 것입니다.",
+    sutras: [
+      { text: "거친 말을 하지 말라. 그 말은 그대로 너에게 되돌아온다. 성난 말은 고통을 부르고, 보복이 너에게 닥친다.", source: "법구경 제133게" },
+      { text: "꽃향기는 바람을 거스르지 못하지만, 덕 있는 사람의 향기는 바람을 거슬러 사방에 퍼진다.", source: "법구경 제54게" }
+    ],
+    confucius: { view: "공자라면 여론에 휩쓸리지 말고 스스로 살피라 했을 것입니다. 많은 사람이 미워한다는 것이 곧 진실의 증거는 아닙니다.", quote: "뭇사람이 미워하더라도 반드시 살피고, 뭇사람이 좋아하더라도 반드시 살펴라. (衆惡之必察焉 衆好之必察焉)", source: "논어 위령공편" },
+    laozi: { view: "노자라면 물처럼 낮은 곳을 적시되 다투지 않는 말을 권했을 것입니다. 다투지 않기에 물에게는 허물이 없습니다.", quote: "최고의 선은 물과 같다. 물은 만물을 이롭게 하면서도 다투지 않는다. (上善若水 水善利萬物而不爭)", source: "도덕경 제8장" },
+    practice: [
+      "댓글을 쓰기 전 부처님의 세 가지 물음 적용하기 — 진실한가, 유익한가, 지금 말할 때인가. 하나라도 '아니오'면 쓰지 않기.",
+      "분노를 일으키는 게시물을 보면 공유·댓글 대신 화면을 닫고 1분 호흡하기 — 확산의 사슬을 내 손에서 끊는 일입니다.",
+      "오늘 한 사람에게 진심 어린 칭찬이나 감사의 말 한 마디 전하기 — 말의 향기를 퍼뜨리는 연습입니다."
+    ]
+  },
+  {
+    id: 'climate',
+    strong: ['기후','환경','탄소','플라스틱','생태'],
+    keywords: ['기후','환경','지구','쓰레기','플라스틱','탄소','오염','폭염','이상기후','멸종','생태','재활용','일회용'],
+    analysis: "기후 위기는 연기(緣起)의 가르침이 행성 규모로 드러난 사건입니다. '이것이 있으므로 저것이 있다' — 나의 소비가 저편의 빙하와, 오늘의 편리가 다음 세대의 폭염과 조건으로 이어져 있습니다.\n\n불교의 불해(不害, ahimsa)는 인간만이 아니라 뭇 생명을 향합니다. 자연을 자원의 창고가 아니라 함께 의지해 사는 인드라망의 그물코로 보는 순간, 환경 문제는 '남의 일'에서 '내 몸의 일'이 됩니다.",
+    buddha_view: "부처님과 승가는 본래 적게 소유하는 삶의 공동체였습니다. 발우 하나, 가사 세 벌 — 필요를 넘는 축적을 경계한 것은 금욕 자체가 목적이 아니라, 욕망의 크기가 곧 세상에 남기는 자국의 크기임을 아셨기 때문입니다.\n\n부처님이라면 죄책감이나 공포로 움직이라 하지 않으셨을 것입니다. 다만 모든 존재의 행복을 비는 자비의 마음이 자연스럽게 발걸음을 가볍게 하고 소비를 단순하게 한다는 것 — 사랑이 절제의 가장 깊은 이유임을 보여주셨을 것입니다.",
+    sutras: [
+      { text: "일체의 존재는 행복하라. 평안하라. 안락하라. 어머니가 외아들을 목숨 걸고 지키듯, 모든 살아 있는 것에 한량없는 자비심을 일으켜라.", source: "숫타니파타 자비경" },
+      { text: "이것이 있으므로 저것이 있고, 이것이 일어나므로 저것이 일어난다.", source: "잡아함경 (연기법송)" }
+    ],
+    confucius: { view: "공자는 낚시질은 해도 그물질은 하지 않았고, 잠든 새는 쏘지 않았습니다. 취하되 씨를 말리지 않는 것 — 절제는 군자가 자연을 대하는 예(禮)였습니다.", quote: "공자께서는 낚시는 하셨으나 그물질은 하지 않으셨고, 주살질은 하셨으나 잠자는 새는 쏘지 않으셨다. (釣而不綱 弋不射宿)", source: "논어 술이편" },
+    laozi: { view: "노자라면 인간이 자연 위에 서려는 마음 자체를 내려놓으라 했을 것입니다. 사람은 자연을 본받는 존재이지, 부리는 주인이 아닙니다.", quote: "사람은 땅을 본받고, 땅은 하늘을 본받고, 하늘은 도를 본받고, 도는 스스로 그러함을 본받는다. (人法地 地法天 天法道 道法自然)", source: "도덕경 제25장" },
+    practice: [
+      "일주일에 하루를 '적게 사는 날'로 정하기 — 새로 사지 않고, 있는 것으로 지내보는 날입니다.",
+      "오늘 버린 쓰레기를 한 번 들여다보고, 다음 주에 줄일 수 있는 품목 하나 정하기.",
+      "식사 전 3초, 이 음식이 거쳐온 땅과 손들을 떠올리기 — 감사는 절제의 어머니입니다."
+    ]
+  },
+  {
+    id: 'lonely',
+    strong: ['외로','외롭','고독','고립','은둔','소외'],
+    keywords: ['외로','고독','혼자','친구가 없','소외','단절','고립','쓸쓸','은둔','관계가','인간관계','연락'],
+    analysis: "외로움은 '연결되고 싶다'는 마음의 신호이지 결함이 아닙니다. 다만 불교는 두 가지를 구분합니다. 괴로운 고립과, 충만한 홀로 있음(獨居)입니다. 같은 '혼자'라도 자기를 버려진 존재로 보면 고통이 되고, 자기와 깊이 만나는 시간으로 보면 수행이 됩니다.\n\n무아(無我)의 가르침은 역설적으로 외로움의 해독제입니다. '나'라는 단단한 섬이 따로 있다는 생각이 옅어질수록, 우리는 이미 수많은 조건과 인연으로 세계와 이어져 있음이 보입니다.",
+    buddha_view: "부처님은 '무소의 뿔처럼 혼자서 가라' 하셨지만, 동시에 '좋은 벗은 수행의 전부'라고도 하셨습니다. 모순이 아닙니다. 휩쓸리는 관계는 줄이되, 서로를 자라게 하는 한 사람과의 인연은 무엇보다 귀하다는 뜻입니다.\n\n부처님이라면 외로움을 없애려 아무 관계나 채우기보다, 먼저 자기 자신과의 사이를 회복하라 하셨을 것입니다. 자기에게 친절한 사람만이 타인에게 갈 힘이 생깁니다. 그리고 작더라도 진실한 연결 — 한 번의 안부, 한 끼의 동행 — 에서 다시 시작하라 하셨을 것입니다.",
+    sutras: [
+      { text: "자기야말로 자신의 의지처, 자기를 두고 어디에 의지하랴. 잘 다스려진 자기야말로 얻기 어려운 의지처다.", source: "법구경 제160게" },
+      { text: "소리에 놀라지 않는 사자처럼, 그물에 걸리지 않는 바람처럼, 무소의 뿔처럼 혼자서 가라.", source: "숫타니파타" }
+    ],
+    confucius: { view: "공자라면 덕을 닦는 사람은 결코 끝까지 혼자이지 않다고 위로했을 것입니다. 좋은 사람 곁에는 반드시 사람이 모입니다. 그러니 먼저 좋은 이웃이 되어 주는 것입니다.", quote: "덕은 외롭지 않다. 반드시 이웃이 있다. (德不孤 必有隣)", source: "논어 이인편" },
+    laozi: { view: "노자라면 자신을 앞세우지 않는 사람이 오히려 앞에 서게 된다 했을 것입니다. 관계를 얻으려 애쓰기보다, 비워둔 자리에 사람이 깃듭니다.", quote: "성인은 자신을 뒤로 하기에 오히려 앞서게 되고, 자신을 내려놓기에 오히려 보존된다. (後其身而身先 外其身而身存)", source: "도덕경 제7장" },
+    practice: [
+      "오늘 한 사람에게 용건 없는 안부 메시지 보내기 — 답장은 결과일 뿐, 보낸 것 자체가 연결입니다.",
+      "혼자인 시간에 이름 붙이기: '고립'이 아니라 '나와의 약속 시간'. 그 시간에 할 작은 의식(차, 산책, 일기) 하나 정하기.",
+      "일주일에 한 번, 사람이 모이는 자리(수업, 모임, 봉사)에 몸을 두기 — 마음보다 몸을 먼저 옮기는 것이 비결입니다."
+    ]
+  },
+  {
+    id: 'truth',
+    strong: ['가짜뉴스','사기','거짓','보이스피싱','조작'],
+    keywords: ['거짓','가짜뉴스','사기','속였','허위','조작','루머','음모','왜곡','기만','과장 광고','보이스피싱'],
+    analysis: "거짓이 빠르게 퍼지는 시대입니다. 부처님은 거짓말을 모든 악의 문이라 하셨습니다. 한 가지 진실을 버린 사람에게는 넘지 못할 선이 없어지기 때문입니다.\n\n동시에 속는 쪽의 마음도 살펴야 합니다. 가짜 뉴스는 대개 우리의 탐욕(듣고 싶은 말)과 분노(믿고 싶은 적)에 정확히 올라탑니다. 거짓에 속지 않는 힘은 정보력 이전에, 내 마음의 치우침을 아는 데서 나옵니다.",
+    buddha_view: "부처님은 깔라마 사람들에게 말씀하셨습니다. 소문이라서, 전통이라서, 경전에 있어서, 스승의 말이라서 믿지 말라. 스스로 살펴 그것이 선하고 이로운지 확인한 뒤에 받아들이라 — 2,500년 전에 주신 가장 오래된 '팩트체크'의 가르침입니다.\n\n부처님이라면 분노나 통쾌함을 일으키는 정보일수록 한 박자 멈추고 출처를 살피라 하셨을 것입니다. 그리고 내가 전하는 말 한 마디부터 진실하게 — 세상의 신뢰는 각자의 입에서부터 회복됩니다.",
+    sutras: [
+      { text: "한 가지 법, 곧 진실을 어기고 거짓을 말하는 사람, 내세를 저버린 사람에게는 짓지 못할 악이 없다.", source: "법구경 제176게" },
+      { text: "소문으로 들었다 해서, 대대로 전해 온다 해서, 경전에 쓰여 있다 해서 그대로 믿지 말라. 스스로 살펴 알았을 때 받아들이라.", source: "앙굿타라 니까야 (깔라마경)" }
+    ],
+    confucius: { view: "공자라면 믿음(信)이 사람됨의 바퀴축이라 했을 것입니다. 신뢰가 빠진 말과 사회는 굴대 없는 수레처럼 한 걸음도 나아가지 못합니다.", quote: "사람에게 믿음이 없으면 그 쓸모를 알 수 없다. 큰 수레에 굴대 없는 것과 같으니 무엇으로 가게 하랴. (人而無信 不知其可也)", source: "논어 위정편" },
+    laozi: { view: "노자라면 화려한 말일수록 의심하라 했을 것입니다. 진실은 대개 수수하고, 꾸민 말은 대개 비어 있습니다.", quote: "믿음직한 말은 아름답지 않고, 아름다운 말은 믿음직하지 않다. (信言不美 美言不信)", source: "도덕경 제81장" },
+    practice: [
+      "강한 감정(분노·통쾌함)을 일으키는 뉴스는 공유 전에 출처·날짜·다른 보도 한 곳을 확인하기 — '멈추고, 확인하고, 그다음 전하기'.",
+      "오늘 하루 과장 없이 말하기에 도전하기 — '엄청', '절대', '다들' 같은 말을 한 번씩 덜어내 보기.",
+      "내가 잘못 알았던 일이 드러나면 24시간 안에 정정하기 — 정정하는 사람이 가장 신뢰받는 사람입니다."
+    ]
+  },
+  {
+    id: 'default',
+    strong: [],
+    keywords: [],
+    analysis: "어떤 상황이든 그 한가운데에는 마음이 있습니다. 부처님은 모든 일이 마음을 앞세워 일어난다고 하셨습니다. 같은 비도 농부에게는 단비이고 행인에게는 궂은비이듯, 상황의 빛깔은 그것을 받아들이는 마음이 정합니다.\n\n그렇다고 상황을 바꾸려는 노력이 헛되다는 뜻은 아닙니다. 다만 순서가 있습니다. 먼저 마음이 고요해야 상황이 또렷이 보이고, 또렷이 보여야 바른 행동이 나옵니다. 흔들리는 물에는 달이 비치지 않습니다.",
+    buddha_view: "부처님이라면 이 상황 앞에서 세 걸음을 권하셨을 것입니다. 첫째, 멈추어 바라보기 — 판단을 잠시 내려놓고 일어난 일을 있는 그대로 보는 것. 둘째, 연기로 헤아리기 — 이 일이 어떤 조건들에서 왔고 나의 어떤 마음이 보태지고 있는지 살피는 것. 셋째, 자비로 행하기 — 나와 상대 모두의 괴로움이 줄어드는 방향으로 지금 할 수 있는 한 가지를 하는 것.\n\n거창한 해답보다, 깨어 있는 한 걸음. 그것이 부처님이 늘 보여주신 길입니다.",
+    sutras: [
+      { text: "모든 일은 마음이 근본이다. 마음에서 나와 마음으로 이루어진다. 맑은 마음으로 말하고 행하면 즐거움이 그를 따른다, 그림자가 형체를 따르듯.", source: "법구경 제1·2게" },
+      { text: "응당 머무는 바 없이 그 마음을 내라. (應無所住而生其心)", source: "금강경" }
+    ],
+    confucius: { view: "공자라면 매일 자신을 돌아보는 데서 시작하라 했을 것입니다. 상황을 바꾸는 힘은 자기를 살피는 습관에서 자랍니다.", quote: "나는 날마다 세 가지로 나 자신을 살핀다. (吾日三省吾身)", source: "논어 학이편" },
+    laozi: { view: "노자라면 어려운 일일수록 쉬운 데서, 큰 일일수록 작은 데서 풀라 했을 것입니다. 한 번에 다 해결하려는 마음이 가장 큰 장애입니다.", quote: "천하의 어려운 일은 반드시 쉬운 데서 시작되고, 천하의 큰 일은 반드시 작은 데서 시작된다. (天下難事 必作於易 天下大事 必作於細)", source: "도덕경 제63장" },
+    practice: [
+      "이 상황을 감정 빼고 사실만으로 세 문장 이내로 적어보기 — 사실과 해석을 분리하는 것이 첫걸음입니다.",
+      "오늘 안에 할 수 있는 가장 작은 행동 하나를 정해 실행하기.",
+      "하루를 마치며 '오늘 내 마음이 가장 흔들린 순간'을 한 줄로 기록하기."
+    ]
+  }
+];
+
+/* ═══ v5 한국어 매칭 엔진 ═══
+   [1] 동의어 사전: 주제별 확장 어휘를 키워드에 자동 합류
+   [2] 조사 처리: 어절 끝의 조사(이/가/을/를/도/만/에서…)를 떼고 비교
+   [3] 어절 단위 매칭: 짧은 키워드는 어절 기준으로만 인정
+       → '영화가 재미없다'가 분노 키워드 '화가'에 오인식되는 문제 해결
+   [4] 가중치·반복 강조·길이 보정·동점 처리는 v4 그대로 유지 */
+
+/* [1] 동의어 사전 — 여기에 단어를 추가하면 바로 인식 범위가 넓어집니다 */
+const SYNONYMS = {
+  anger:   ['열받','빡치','빡쳐','짜증','욱하','분통','격분','행패','멱살','주먹다짐','분개','화나','화났','부글부글'],
+  compare: ['시기심','샘나','부럽','부러워','자격지심','현타','우월감','뒤처지','초라'],
+  anxiety: ['조마조마','노심초사','겁나','무섭','떨려','압박감','공황','막막','심란'],
+  loss:    ['별세','타계','영면','작고','유족','추모','애도','펫로스','세상을 떠'],
+  greed:   ['일확천금','영끌','빚투','도박','사재기','물질만능','벼락부자','플렉스'],
+  burnout: ['격무','소진','워커홀릭','만성피로','의욕','사직','녹초','연차도 못'],
+  hate:    ['비방','손가락질','낙인','배척','멸시','인신공격','사이버불링','왕따','신상털기'],
+  climate: ['온난화','폭우','가뭄','미세먼지','해수면','친환경','이상고온','산불'],
+  lonely:  ['적적','독거','쓸쓸','허전','혼밥','말동무','겉도는','챙겨주는 사람'],
+  truth:   ['허위사실','날조','선동','딥페이크','피싱','사칭','음해','지어낸']
+};
+for (const t of WISDOM_DB) {
+  if (SYNONYMS[t.id]) t.keywords = t.keywords.concat(SYNONYMS[t.id]);
+}
+
+/* [2] 조사 목록 — 긴 것부터 검사해야 '에서'가 '서'보다 먼저 떨어집니다 */
+const JOSA = ['에서부터','으로부터','에게서','한테서','이라도','라도','처럼','보다','부터','까지','마저','조차','에서','에게','한테','으로','이나','이며','하고','랑','과','와','은','는','이','가','을','를','에','의','도','만','로','요'];
+
+function normalizeTokens(text) {
+  return text.split(/[\s,.!?~…·"'()\[\]{}<>:;]+/).filter(Boolean).map(tok => {
+    for (const j of JOSA) {
+      if (tok.length >= j.length + 2 && tok.endsWith(j)) return tok.slice(0, -j.length);
+    }
+    return tok;
+  });
+}
+
+function countOcc(text, k) {
+  let c = 0, i = 0;
+  while ((i = text.indexOf(k, i)) !== -1) { c++; i += k.length; }
+  return c;
+}
+
+/* [3] 키워드 길이에 따라 매칭 방식 분리
+   - 4자 이상 또는 띄어쓰기 포함('층간소음','세상을 떠'): 본문 부분 일치 (안전)
+   - 2~3자 짧은 키워드('화가','비교','폭력'): 조사 제거된 어절과
+     완전 일치하거나 어절이 그 키워드로 시작할 때만 인정 (오인식 차단) */
+function keywordCount(rawText, tokens, k) {
+  if (k.length >= 4 || k.includes(' ')) return countOcc(rawText, k);
+  let c = 0;
+  for (const t of tokens) if (t === k || t.startsWith(k)) c++;
+  return c;
+}
+
+/* ═══ v6 복합 주제 엔진 ═══
+   주제를 1등만 고르지 않고 전체 점수 순위를 매긴 뒤,
+   2위 점수가 1위의 55% 이상이면 "복합 질문"으로 판정해
+   두 주제의 분석·경전·실천을 함께 엮어 보여줍니다. */
+
+const THEME_NAMES = {
+  anger: '분노·갈등', compare: '비교·질투', anxiety: '불안·걱정', loss: '상실·이별',
+  greed: '탐욕·소비', burnout: '번아웃·과로', hate: '혐오·비난', climate: '기후·환경',
+  lonely: '외로움·고립', truth: '거짓·기만', 'default': '마음·근본'
+};
+/* 복합 판정 기준: 2위 주제가 핵심 단어(strong) 1개 이상을 맞췄거나
+   원점수(raw) 2점 이상이면 복합 질문으로 봅니다 */
+const COMPOSITE_MIN_RAW = 2;
+
+function rankThemes(q) {
+  const text = q.toLowerCase();
+  const tokens = normalizeTokens(text);
+  const ranked = [];
+  for (const t of WISDOM_DB) {
+    const strong = t.strong || [];
+    if (!t.keywords.length && !strong.length) continue;
+    let raw = 0, strongHits = 0;
+    for (const k of strong) {
+      const c = Math.min(keywordCount(text, tokens, k.toLowerCase()), 3);
+      raw += c * 3;
+      if (c) strongHits++;
+    }
+    for (const k of t.keywords) {
+      raw += Math.min(keywordCount(text, tokens, k.toLowerCase()), 3);
+    }
+    const score = raw / Math.sqrt(strong.length + t.keywords.length);
+    if (score > 0) ranked.push({ theme: t, score, raw, strongHits });
+  }
+  ranked.sort((a, b) => (b.score - a.score) || (b.strongHits - a.strongHits));
+  return ranked;
+}
+
+function pickThemes(q) {
+  const ranked = rankThemes(q);
+  const fallback = WISDOM_DB.find(t => t.id === 'default');
+  if (!ranked.length) return [fallback];
+  const primary = ranked[0].theme;
+  if (ranked.length >= 2 &&
+      (ranked[1].strongHits >= 1 || ranked[1].raw >= COMPOSITE_MIN_RAW)) {
+    return [primary, ranked[1].theme];
+  }
+  return [primary];
+}
+
+/* 기존 코드 호환용 */
+function findTheme(q) { return pickThemes(q)[0]; }
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function firstParagraph(s) { return String(s).split(/\n\n+/)[0]; }
+
+function offlineWisdom(q, mode) {
+  const themes = pickThemes(q);
+  const t = themes[0], t2 = themes[1] || null;
+  const themesLabel = t2
+    ? THEME_NAMES[t.id] + ' × ' + THEME_NAMES[t2.id]
+    : THEME_NAMES[t.id];
+  const bridge = t2
+    ? '그리고 이 상황에는 「' + THEME_NAMES[t2.id] + '」의 매듭도 함께 겹쳐 있습니다.'
+    : '';
+  const analysis = t2
+    ? t.analysis + '\n\n' + bridge + ' ' + firstParagraph(t2.analysis)
+    : t.analysis;
+  const practice = t2
+    ? [t.practice[0], t.practice[1], t2.practice[0]]
+    : t.practice;
+
+  if (mode === 'compare') {
+    const s = pick(t.sutras);
+    return {
+      themesLabel, analysis, practice,
+      perspectives: [
+        { name: '붓다', view: t.buddha_view, quote: s.text, source: s.source },
+        { name: '공자', view: t.confucius.view, quote: t.confucius.quote, source: t.confucius.source },
+        { name: '노자', view: t.laozi.view, quote: t.laozi.quote, source: t.laozi.source }
+      ]
+    };
+  }
+
+  const s = pick(t.sutras);
+  const w = {
+    themesLabel, analysis, practice,
+    buddha_view: t.buddha_view,
+    sutra: { text: s.text, source: s.source }
+  };
+  if (t2) {
+    const s2 = pick(t2.sutras);
+    w.sutra2 = { text: s2.text, source: s2.source, theme: THEME_NAMES[t2.id] };
+  }
+  return w;
+}
+
+/* ───────── UI 이벤트 ───────── */
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    textarea.value = chip.textContent + '에 대해 성현이라면 어떻게 보시고, 어떻게 행동하실지 알고 싶어요.';
+    textarea.focus();
+  });
+});
+document.querySelectorAll('.mode').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode').forEach(b => {
+      b.classList.remove('active'); b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    currentMode = btn.dataset.mode;
+  });
+});
+
+/* ───────── AI 분석 (선택 사항) ───────── */
+const PROMPT_BUDDHA = `당신은 초기 불교 경전과 대승 경전에 두루 정통한 불교학자이자, 부처님의 가르침을 현대 사회 문제에 적용해 풀어내는 해설가입니다.
+
+사용자가 뉴스 기사, 사회 문제, 개인적 고민 상황을 제시하면:
+1. 상황의 핵심을 불교적 관점(연기, 무상, 무아, 탐진치, 자비 등)에서 분석
+2. 부처님이라면 이 상황을 어떻게 보시고 어떤 태도로 행동하셨을지 서술
+3. 실존하는 경전 구절 1개를 한국어로 제시
+4. 오늘부터 실천할 수 있는 구체적 행동 3가지 제안
+
+반드시 아래 JSON 형식으로만, 마크다운 백틱 없이 순수 JSON만 출력:
+{"analysis":"불교적 분석 (2~3문단, \\n\\n 구분)","buddha_view":"부처님의 시선과 행동 (2~3문단)","sutra":{"text":"경전 구절","source":"출처"},"practice":["실천1","실천2","실천3"]}
+말투는 따뜻하고 차분하게.`;
+
+const PROMPT_COMPARE = `당신은 불교·유교·도가 사상에 두루 정통한 동양철학자입니다. 사용자의 상황을 붓다, 공자, 노자 세 성현의 관점에서 각각 분석하고, 각 성현별로 실존 원전 구절(법구경 등/논어/도덕경) 1개씩 한국어로 제시한 뒤, 실천 행동 3가지를 제안합니다.
+
+반드시 아래 JSON 형식으로만, 마크다운 백틱 없이 순수 JSON만 출력:
+{"analysis":"상황 요약 (1~2문단)","perspectives":[{"name":"붓다","view":"...","quote":"...","source":"..."},{"name":"공자","view":"...","quote":"...","source":"논어 OO편"},{"name":"노자","view":"...","quote":"...","source":"도덕경 제O장"}],"practice":["실천1","실천2","실천3"]}
+말투는 따뜻하고 차분하게.`;
+
+async function callClaude(userText, systemPrompt) {
+  const headers = { 'Content-Type': 'application/json' };
+  const key = keyInput.value.trim();
+  if (key) {
+    headers['x-api-key'] = key;
+    headers['anthropic-version'] = '2023-06-01';
+    headers['anthropic-dangerous-direct-browser-access'] = 'true';
+  }
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1500,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userText }]
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message || 'API 오류');
+  return data.content.filter(b => b.type === 'text').map(b => b.text).join('\n')
+    .replace(/```json|```/g, '').trim();
+}
+
+/* ───────── 메인 흐름: AI 시도 → 실패 시 내장 지혜 사전 ───────── */
+async function seekWisdom() {
+  const q = textarea.value.trim();
+  if (!q) { textarea.focus(); return; }
+
+  goBtn.disabled = true;
+  loading.classList.add('show');
+  errorBox.classList.remove('show');
+  result.innerHTML = '';
+
+  let wisdom = null;
+  let fromAI = false;
+
+  try {
+    const system = currentMode === 'compare' ? PROMPT_COMPARE : PROMPT_BUDDHA;
+    const text = await callClaude(q, system);
+    wisdom = JSON.parse(text);
+    fromAI = true;
+  } catch (err) {
+    console.warn('AI 호출 실패 — 내장 지혜 사전으로 전환:', err.message);
+    wisdom = offlineWisdom(q, currentMode);
+  }
+
+  lastWisdom = wisdom;
+  lastMode = currentMode;
+  currentMode === 'compare' ? renderCompare(wisdom, fromAI) : renderBuddha(wisdom, fromAI);
+
+  goBtn.disabled = false;
+  loading.classList.remove('show');
+}
+
+/* ───────── 렌더링 ───────── */
+function paragraphs(str) {
+  return String(str).split(/\n\n+/).map(p => '<p>' + escapeHtml(p) + '</p>').join('');
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function badge(fromAI, w) {
+  let label = fromAI ? 'AI 맞춤 분석' : '내장 경장(經藏) 지혜 사전';
+  if (!fromAI && w && w.themesLabel) label += ' · ' + w.themesLabel;
+  return '<div class="source-badge"><em>' + label + '</em></div>';
+}
+
+function renderBuddha(w, fromAI) {
+  const sutra2Html = w.sutra2 ? `
+    <article class="panel">
+      <div class="panel-label"><span>겹친 매듭의 말씀 · 重</span></div>
+      <div class="sutra" data-seal="重">
+        <div class="sutra-text">${escapeHtml(w.sutra2.text)}</div>
+        <div class="sutra-source">${escapeHtml(w.sutra2.source)} · ${escapeHtml(w.sutra2.theme)}</div>
+      </div>
+    </article>` : '';
+  result.innerHTML = badge(fromAI, w) + `
+    <article class="panel">
+      <div class="panel-label"><span>비추어 봄 · 觀</span></div>
+      <div class="panel-body">${paragraphs(w.analysis)}</div>
+    </article>
+    <article class="panel">
+      <div class="panel-label"><span>붓다의 시선 · 佛眼</span></div>
+      <div class="panel-body">${paragraphs(w.buddha_view)}</div>
+    </article>
+    <article class="panel">
+      <div class="panel-label"><span>경전의 말씀 · 經</span></div>
+      <div class="sutra" data-seal="法">
+        <div class="sutra-text">${escapeHtml(w.sutra?.text || '')}</div>
+        <div class="sutra-source">${escapeHtml(w.sutra?.source || '')}</div>
+      </div>
+    </article>${sutra2Html}
+    <article class="panel">
+      <div class="panel-label"><span>오늘의 실천 · 行</span></div>
+      <ul class="practice-list">
+        ${(w.practice || []).map(p => '<li>' + escapeHtml(p) + '</li>').join('')}
+      </ul>
+      <button class="save-card" id="saveCard" type="button" data-share>카드 이미지로 저장</button>
+    </article>
+  `;
+  bindSave();
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+const SEALS = { '붓다': '法', '공자': '仁', '노자': '道' };
+
+function renderCompare(w, fromAI) {
+  const sages = (w.perspectives || []).map(p => `
+    <div class="sage">
+      <div class="sage-name">${escapeHtml(p.name)}</div>
+      <div class="sage-view">${paragraphs(p.view)}</div>
+      <div class="sutra" data-seal="${SEALS[p.name] || '言'}">
+        <div class="sutra-text">${escapeHtml(p.quote || '')}</div>
+        <div class="sutra-source">${escapeHtml(p.source || '')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  result.innerHTML = badge(fromAI, w) + `
+    <article class="panel">
+      <div class="panel-label"><span>비추어 봄 · 觀</span></div>
+      <div class="panel-body">${paragraphs(w.analysis)}</div>
+    </article>
+    <article class="panel">
+      <div class="panel-label"><span>세 성현의 시선 · 三賢</span></div>
+      ${sages}
+    </article>
+    <article class="panel">
+      <div class="panel-label"><span>오늘의 실천 · 行</span></div>
+      <ul class="practice-list">
+        ${(w.practice || []).map(p => '<li>' + escapeHtml(p) + '</li>').join('')}
+      </ul>
+      <button class="save-card" id="saveCard" type="button" data-share>카드 이미지로 저장</button>
+    </article>
+  `;
+  bindSave();
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ───────── 카드 이미지 저장 ───────── */
+function bindSave() {
+  const btn = $('#saveCard');
+  if (!btn) return;
+  /* 공유 시트를 지원하는 기기(대부분의 폰)에서는 문구를 바꿔준다 */
+  if (navigator.canShare) btn.textContent = '카드 이미지 공유·저장';
+  btn.addEventListener('click', saveCardImage);
+}
+function wrapText(ctx, text, maxWidth) {
+  const lines = [];
+  let line = '';
+  for (const ch of String(text)) {
+    if (ch === '\n') { lines.push(line); line = ''; continue; }
+    const test = line + ch;
+    if (ctx.measureText(test).width > maxWidth && line) { lines.push(line); line = ch; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+async function saveCardImage() {
+  if (!lastWisdom) return;
+  try { await document.fonts.ready; } catch (e) {}
+
+  const W = 1080, H = 1350;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#0D1322';
+  ctx.fillRect(0, 0, W, H);
+  const grad = ctx.createRadialGradient(W/2, -100, 50, W/2, -100, 900);
+  grad.addColorStop(0, 'rgba(201,164,92,0.10)');
+  grad.addColorStop(1, 'rgba(201,164,92,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = '#C9A45C';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(50, 50, W-100, H-100);
+  ctx.lineWidth = 1;
+  ctx.strokeRect(64, 64, W-128, H-128);
+
+  ctx.beginPath();
+  ctx.arc(W/2, 200, 56, -0.4 * Math.PI, 1.45 * Math.PI);
+  ctx.lineWidth = 4;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  let quote, source;
+  if (lastMode === 'compare') {
+    const b = (lastWisdom.perspectives || [])[0] || {};
+    quote = b.quote; source = b.source;
+  } else {
+    quote = lastWisdom.sutra?.text; source = lastWisdom.sutra?.source;
+  }
+
+  ctx.fillStyle = '#C9A45C';
+  ctx.textAlign = 'center';
+  ctx.font = '700 52px "Gowun Batang", serif';
+  const lines = wrapText(ctx, quote || '', W - 240);
+  const lineH = 96;
+  let y = (H - lines.length * lineH) / 2 + 40;
+  for (const l of lines) { ctx.fillText(l, W/2, y); y += lineH; }
+
+  ctx.fillStyle = '#8B93A7';
+  ctx.font = '300 32px "Noto Serif KR", serif';
+  ctx.fillText('— ' + (source || ''), W/2, y + 30);
+
+  const sx = 110, sy = H - 200, ss = 64;
+  ctx.strokeStyle = '#B8543F';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(sx, sy, ss, ss);
+  ctx.fillStyle = '#B8543F';
+  ctx.font = '500 36px "Noto Serif KR", serif';
+  ctx.fillText('法', sx + ss/2, sy + ss/2 + 13);
+
+  ctx.fillStyle = '#E8D5A8';
+  ctx.font = '700 30px "Gowun Batang", serif';
+  ctx.fillText('지 금 ,  붓 다 라 면', W/2, H - 130);
+  ctx.fillStyle = 'rgba(139,147,167,0.7)';
+  ctx.font = '300 22px "Noto Serif KR", serif';
+  ctx.fillText('如 是 我 聞', W/2, H - 92);
+
+  const fileName = '붓다라면-' + new Date().toISOString().slice(0,10) + '.png';
+
+  /* 모바일: 공유 시트(인스타·카톡 등으로 바로 전송) → 미지원 시 다운로드 */
+  const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+  if (blob && navigator.canShare) {
+    const file = new File([blob], fileName, { type: 'image/png' });
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: '지금, 붓다라면' });
+        return;
+      } catch (e) {
+        if (e.name === 'AbortError') return; /* 사용자가 공유 취소 */
+      }
+    }
+  }
+  const url = canvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+}
+
+goBtn.addEventListener('click', seekWisdom);
+textarea.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') seekWisdom();
+});
+
+/* PWA 서비스 워커 (HTTPS 또는 localhost에서만 동작) */
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  navigator.serviceWorker.register('./sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>
