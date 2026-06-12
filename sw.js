@@ -1,5 +1,5 @@
 /* 지금, 붓다라면 — 서비스 워커 (오프라인 캐시) */
-const CACHE = 'buddha-v5';
+const CACHE = 'buddha-v9';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
