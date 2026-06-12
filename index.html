@@ -93,12 +93,28 @@
     border-radius: 4px; padding: 28px;
     box-shadow: 0 12px 40px rgba(0,0,0,0.35);
   }
+  .ask-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
   .ask label {
-    display: block;
     font-family: 'Noto Serif KR', serif; font-weight: 500;
     color: var(--gold); font-size: 0.9rem;
-    letter-spacing: 0.15em; margin-bottom: 14px;
+    letter-spacing: 0.15em;
   }
+  #resetBtn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 999px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    min-height: 32px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  #resetBtn:hover { color: var(--seal); border-color: var(--seal); }
   textarea, input[type="password"] {
     width: 100%;
     background: var(--deep);
@@ -502,7 +518,10 @@ try {
   </section>
 
   <section class="ask">
-    <label for="situation">묻고 싶은 상황</label>
+    <div class="ask-head">
+      <label for="situation">묻고 싶은 상황</label>
+      <button id="resetBtn" type="button" aria-label="입력과 답변 비우기">✕ 비우기</button>
+    </div>
     <textarea id="situation" placeholder="예) 층간소음 갈등이 폭력 사건으로 번졌다는 기사를 봤어요. 이 갈등을 어떻게 보아야 할까요?"></textarea>
 
     <div class="modes" role="radiogroup" aria-label="관점 선택">
@@ -1397,6 +1416,19 @@ async function saveCardImage() {
     apply(order[(order.indexOf(current()) + 1) % 3]);
   });
 })();
+
+
+/* ───────── 비우기: 입력과 답변을 처음 상태로 ───────── */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  textarea.value = '';
+  result.innerHTML = '';
+  errorBox.classList.remove('show');
+  loading.classList.remove('show');
+  lastWisdom = null;
+  goBtn.disabled = false;
+  textarea.focus();
+  document.querySelector('.ask').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 
 goBtn.addEventListener('click', seekWisdom);
 textarea.addEventListener('keydown', (e) => {
