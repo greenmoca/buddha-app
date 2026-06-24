@@ -488,6 +488,34 @@
   }
   .update-bar button:hover { background: var(--gold-light); }
 
+  .install-banner {
+    position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom));
+    transform: translateX(-50%) translateY(150%);
+    z-index: 95; width: calc(100vw - 32px); max-width: 460px;
+    background: var(--panel); border: 1px solid var(--gold); border-radius: 14px;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+    display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+    transition: transform 0.45s cubic-bezier(.2,.8,.2,1);
+  }
+  .install-banner.show { transform: translateX(-50%) translateY(0); }
+  .install-banner .ib-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+  .install-banner .ib-text strong { color: var(--gold); font-family: 'Noto Serif KR', serif; font-size: 0.95rem; }
+  .install-banner .ib-text span { color: var(--muted); font-size: 0.8rem; }
+  .install-banner .ib-actions { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+  .install-banner #bannerInstall {
+    background: var(--gold); color: var(--deep); border: none; border-radius: 999px;
+    font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 0.85rem;
+    padding: 9px 18px; min-height: 40px; cursor: pointer;
+  }
+  .install-banner #bannerInstall:hover { background: var(--gold-light); }
+  .install-banner .ib-close {
+    background: transparent; border: none; color: var(--muted);
+    font-size: 0.8rem; padding: 8px 6px; min-height: 40px; cursor: pointer;
+  }
+  .install-banner .ib-close:hover { color: var(--gold); }
+  @media (prefers-reduced-motion: reduce) { .install-banner { transition: none; } }
+  @media (max-width: 480px) { .install-banner .ib-text strong { font-size: 0.9rem; } }
+
   /* ═══════════ 오늘의 법문 위젯 모드 (?view=daily) ═══════════ */
   #dailyOnly {
     min-height: 100vh;
@@ -562,6 +590,16 @@ try {
 <div class="update-bar" id="updateBar" role="status">
   <span>새 버전이 준비됐어요</span>
   <button id="updateBtn" type="button">새로고침</button>
+</div>
+<div class="install-banner" id="installBanner" role="dialog" aria-label="앱 설치 안내">
+  <div class="ib-text">
+    <strong>홈 화면에 앱으로 추가</strong>
+    <span>오프라인에서도 열리고, 더 빠르게 만나요</span>
+  </div>
+  <div class="ib-actions">
+    <button id="bannerInstall" type="button">설치</button>
+    <button id="bannerClose" type="button" class="ib-close" aria-label="나중에">나중에</button>
+  </div>
 </div>
 <div class="wrap">
 
@@ -1177,6 +1215,10 @@ const PROMPT_COMPARE = `당신은 불교·유교·도가 사상에 두루 정통
 {"analysis":"상황 요약 (1~2문단)","perspectives":[{"name":"붓다","view":"...","quote":"...","source":"..."},{"name":"공자","view":"...","quote":"...","source":"논어 OO편"},{"name":"노자","view":"...","quote":"...","source":"도덕경 제O장"}],"practice":["실천1","실천2","실천3"]}
 말투는 따뜻하고 차분하게.`;
 
+/* AI 모델·토큰 설정 — 모델이 만료되면 이 한 줄만 교체하세요 (별칭 모델 권장) */
+const CLAUDE_MODEL = 'claude-sonnet-4-20250514';
+const MAX_TOKENS = { buddha: 2000, compare: 3000 };
+
 async function callClaude(userText, systemPrompt) {
   const headers = { 'Content-Type': 'application/json' };
   const key = keyInput.value.trim();
@@ -1189,8 +1231,8 @@ async function callClaude(userText, systemPrompt) {
     method: 'POST',
     headers,
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
+      model: CLAUDE_MODEL,
+      max_tokens: MAX_TOKENS[currentMode] || MAX_TOKENS.buddha,
       system: systemPrompt,
       messages: [{ role: 'user', content: userText }]
     })
@@ -1510,7 +1552,8 @@ textarea.addEventListener('keydown', (e) => {
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches
                     || window.navigator.standalone === true;
   const ua = navigator.userAgent || '';
-  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const isIOS = (/iPad|iPhone|iPod/.test(ua) && !window.MSStream)
+             || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);  /* iPadOS 13+ 사파리는 Mac으로 보고됨 */
 
   let deferredPrompt = null;
   let waitingWorker = null;
@@ -1540,7 +1583,7 @@ textarea.addEventListener('keydown', (e) => {
   guideOverlay.addEventListener('click', (e) => { if (e.target === guideOverlay) closeGuide(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeGuide(); });
 
-  installBtn.addEventListener('click', async () => {
+  async function triggerInstall() {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const choice = await deferredPrompt.userChoice;
@@ -1566,7 +1609,32 @@ textarea.addEventListener('keydown', (e) => {
         '<p>크롬·엣지·삼성인터넷에서 설치할 수 있어요. 맥 사파리는 <span class="key">공유 → Dock에 추가</span>를 이용하세요.</p>'
       );
     }
+  }
+  installBtn.addEventListener('click', triggerInstall);
+
+  /* ── 첫 방문 1회 설치 배너 (참여 후 한 번만, 닫으면 다시 안 뜸) ── */
+  const installBanner = document.getElementById('installBanner');
+  const BANNER_KEY = 'buddha-install-banner';
+  let bannerShown = false;
+  function bannerDismissed() { try { return localStorage.getItem(BANNER_KEY) === '1'; } catch (e) { return false; } }
+  function markBanner() { try { localStorage.setItem(BANNER_KEY, '1'); } catch (e) {} }
+  function hideBanner() { installBanner.classList.remove('show'); }
+  function maybeShowBanner() {
+    if (bannerShown || isStandalone || bannerDismissed()) return;
+    if (updateBar.classList.contains('show')) return;   /* 업데이트 배너와 겹치지 않게 */
+    bannerShown = true;
+    installBanner.classList.add('show');
+  }
+  document.getElementById('bannerInstall').addEventListener('click', async () => {
+    markBanner(); hideBanner();
+    await triggerInstall();
   });
+  document.getElementById('bannerClose').addEventListener('click', () => { markBanner(); hideBanner(); });
+  /* 참여 신호: 첫 스크롤(살짝 지연) 또는 안전망으로 15초 후 1회 */
+  if (!isStandalone && !bannerDismissed()) {
+    window.addEventListener('scroll', () => setTimeout(maybeShowBanner, 700), { once: true, passive: true });
+    setTimeout(maybeShowBanner, 15000);
+  }
 
   /* 업데이트: 자동 적용 대신, 사용자가 '새로고침'을 누를 때만 새 버전 활성화 */
   updateBtn.addEventListener('click', () => {
