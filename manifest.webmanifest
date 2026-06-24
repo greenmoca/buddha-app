@@ -1,13 +1,25 @@
 {
   "name": "지금, 붓다라면",
   "short_name": "붓다라면",
+  "id": "./",
   "description": "현대 사회의 문제를 부처님의 가르침으로 비추어 보는 앱",
   "lang": "ko",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
   "background_color": "#0D1322",
   "theme_color": "#0D1322",
+  "categories": [
+    "lifestyle",
+    "education"
+  ],
   "icons": [
     {
       "src": "icon-192.png",

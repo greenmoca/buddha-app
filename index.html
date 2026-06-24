@@ -437,6 +437,57 @@
     #topCtrl button { font-size: 12px; padding: 8px 13px; }
   }
 
+  /* ═══════════ 앱 설치 버튼 · 안내 모달 · 업데이트 배너 ═══════════ */
+  #installBtn { background: var(--gold); color: var(--deep); border-color: var(--gold); font-weight: 700; }
+  #installBtn:hover { background: var(--gold-light); border-color: var(--gold-light); }
+  #installBtn[hidden] { display: none; }
+
+  .guide-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.55);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .guide-overlay.open { display: flex; }
+  .guide {
+    background: var(--panel); border: 1px solid var(--gold);
+    border-radius: 6px; max-width: 420px; width: 100%;
+    padding: 28px 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .guide h2 {
+    font-family: 'Gowun Batang', serif; color: var(--gold);
+    font-size: 1.15rem; letter-spacing: 0.08em; margin-bottom: 16px;
+  }
+  .guide ol { margin: 0 0 10px 1.1em; color: var(--gold-light); font-size: 0.95rem; line-height: 1.95; }
+  .guide p { color: var(--muted); font-size: 0.86rem; line-height: 1.7; }
+  .guide .key { color: var(--gold); font-weight: 500; }
+  .guide-close {
+    display: block; width: 100%; margin-top: 20px;
+    background: transparent; border: 1px solid var(--line); color: var(--gold);
+    border-radius: 3px; font-family: 'Noto Serif KR', serif; font-size: 0.95rem;
+    letter-spacing: 0.15em; padding: 12px; cursor: pointer; transition: all 0.2s;
+  }
+  .guide-close:hover { background: var(--gold); color: var(--deep); }
+
+  .update-bar {
+    position: fixed; left: 50%; transform: translateX(-50%);
+    bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 90;
+    background: var(--panel); border: 1px solid var(--gold); border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    display: none; align-items: center; gap: 14px;
+    padding: 10px 12px 10px 22px; max-width: calc(100vw - 32px);
+  }
+  .update-bar.show { display: flex; }
+  .update-bar span {
+    color: var(--gold-light); font-size: 0.88rem;
+    font-family: 'Noto Serif KR', serif; letter-spacing: 0.04em; white-space: nowrap;
+  }
+  .update-bar button {
+    background: var(--gold); color: var(--deep); border: none; border-radius: 999px;
+    font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 0.85rem;
+    letter-spacing: 0.06em; padding: 8px 18px; min-height: 40px; cursor: pointer; white-space: nowrap;
+  }
+  .update-bar button:hover { background: var(--gold-light); }
+
   /* ═══════════ 오늘의 법문 위젯 모드 (?view=daily) ═══════════ */
   #dailyOnly {
     min-height: 100vh;
@@ -497,8 +548,20 @@ try {
 </head>
 <body>
 <div id="topCtrl">
+  <button id="installBtn" type="button" aria-label="앱으로 설치하기" hidden>⬇ 앱 설치</button>
   <button id="fontBtn" type="button" aria-label="글자 크기 조절">가 보통</button>
   <button id="themeBtn" type="button" aria-label="화면 모드 전환">◐ 자동</button>
+</div>
+<div class="guide-overlay" id="guideOverlay" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+  <div class="guide">
+    <h2 id="guideTitle">앱으로 설치하기</h2>
+    <div id="guideBody"></div>
+    <button class="guide-close" id="guideClose" type="button">닫기</button>
+  </div>
+</div>
+<div class="update-bar" id="updateBar" role="status">
+  <span>새 버전이 준비됐어요</span>
+  <button id="updateBtn" type="button">새로고침</button>
 </div>
 <div class="wrap">
 
@@ -1435,10 +1498,107 @@ textarea.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') seekWisdom();
 });
 
-/* PWA 서비스 워커 (HTTPS 또는 localhost에서만 동작) */
-if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-  navigator.serviceWorker.register('./sw.js').catch(function(){});
-}
+/* ═════════ PWA 설치 · 자동 업데이트 (데스크탑 + 모바일) ═════════ */
+(function pwa() {
+  const installBtn   = document.getElementById('installBtn');
+  const guideOverlay = document.getElementById('guideOverlay');
+  const guideBody    = document.getElementById('guideBody');
+  const guideClose   = document.getElementById('guideClose');
+  const updateBar    = document.getElementById('updateBar');
+  const updateBtn    = document.getElementById('updateBtn');
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+                    || window.navigator.standalone === true;
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
+  let deferredPrompt = null;
+  let waitingWorker = null;
+  let refreshing = false;
+
+  /* 설치되지 않았으면 설치 버튼을 기본 노출 (브라우저 휴리스틱에 의존하지 않음) */
+  if (!isStandalone) installBtn.hidden = false;
+
+  /* 안드로이드/크롬·엣지 데스크탑: 네이티브 설치 프롬프트 캡처 */
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.hidden = isStandalone;
+  });
+  window.addEventListener('appinstalled', () => {
+    installBtn.hidden = true;
+    deferredPrompt = null;
+  });
+
+  function openGuide(html) {
+    guideBody.innerHTML = html;
+    guideOverlay.classList.add('open');
+    guideClose.focus();
+  }
+  function closeGuide() { guideOverlay.classList.remove('open'); }
+  guideClose.addEventListener('click', closeGuide);
+  guideOverlay.addEventListener('click', (e) => { if (e.target === guideOverlay) closeGuide(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeGuide(); });
+
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if (choice && choice.outcome === 'accepted') installBtn.hidden = true;
+      deferredPrompt = null;
+      return;
+    }
+    if (isIOS) {
+      openGuide(
+        '<ol>' +
+        '<li>아래쪽(또는 위쪽)의 <span class="key">공유</span> 버튼을 누르세요.</li>' +
+        '<li><span class="key">홈 화면에 추가</span>를 선택하세요.</li>' +
+        '<li>오른쪽 위 <span class="key">추가</span>를 누르면 끝입니다.</li>' +
+        '</ol>' +
+        '<p>설치 후에는 비행기 모드에서도 열립니다. (사파리에서 진행해 주세요)</p>'
+      );
+    } else {
+      openGuide(
+        '<ol>' +
+        '<li>주소창 오른쪽 끝의 <span class="key">설치 아이콘</span>(⊕ 또는 모니터 모양)을 누르세요.</li>' +
+        '<li>아이콘이 없으면 브라우저 메뉴(⋮)에서 <span class="key">앱 설치</span> 또는 <span class="key">바로가기 만들기</span>를 선택하세요.</li>' +
+        '</ol>' +
+        '<p>크롬·엣지·삼성인터넷에서 설치할 수 있어요. 맥 사파리는 <span class="key">공유 → Dock에 추가</span>를 이용하세요.</p>'
+      );
+    }
+  });
+
+  /* 업데이트: 자동 적용 대신, 사용자가 '새로고침'을 누를 때만 새 버전 활성화 */
+  updateBtn.addEventListener('click', () => {
+    updateBar.classList.remove('show');
+    if (waitingWorker) waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+  });
+
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      function track(worker) {
+        if (!worker) return;
+        worker.addEventListener('statechange', () => {
+          if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+            waitingWorker = worker;
+            updateBar.classList.add('show');
+          }
+        });
+      }
+      if (reg.waiting && navigator.serviceWorker.controller) {
+        waitingWorker = reg.waiting;
+        updateBar.classList.add('show');
+      }
+      reg.addEventListener('updatefound', () => track(reg.installing));
+    }).catch(function(){});
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      location.reload();
+    });
+  }
+})();
 </script>
 </body>
 </html>
