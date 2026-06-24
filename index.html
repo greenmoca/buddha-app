@@ -1272,6 +1272,7 @@ async function seekWisdom() {
 
   goBtn.disabled = false;
   loading.classList.remove('show');
+  try { window.dispatchEvent(new Event('wisdom-rendered')); } catch (e) {}  /* 설치 배너 트리거 */
 }
 
 /* ───────── 렌더링 ───────── */
@@ -1630,8 +1631,10 @@ textarea.addEventListener('keydown', (e) => {
     await triggerInstall();
   });
   document.getElementById('bannerClose').addEventListener('click', () => { markBanner(); hideBanner(); });
-  /* 참여 신호: 첫 스크롤(살짝 지연) 또는 안전망으로 15초 후 1회 */
+  /* 노출 시점 — 1순위: 첫 답변 직후(최고 의도 시점, 결과 가림 방지 위해 1.5초 지연)
+     안전망: 답변 없이 둘러보는 사용자를 위해 첫 스크롤 또는 15초 후 (maybeShowBanner가 중복 노출 차단) */
   if (!isStandalone && !bannerDismissed()) {
+    window.addEventListener('wisdom-rendered', () => setTimeout(maybeShowBanner, 1500), { once: true });
     window.addEventListener('scroll', () => setTimeout(maybeShowBanner, 700), { once: true, passive: true });
     setTimeout(maybeShowBanner, 15000);
   }

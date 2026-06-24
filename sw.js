@@ -2,8 +2,8 @@
    · 페이지 이동(navigation): network-first → 새 버전을 빨리 반영, 오프라인이면 캐시
    · 정적 자산(폰트·아이콘 등): cache-first → 빠르고 데이터 절약
    · 업데이트: 자동 적용하지 않고, 페이지가 보낸 SKIP_WAITING(사용자 동의) 후 활성화
-   ★ 파일 수정 후 재배포할 때마다 아래 캐시 숫자를 +1 하세요 (buddha-v12 → v13) */
-const CACHE = 'buddha-v12';
+   ★ 파일 수정 후 재배포할 때마다 아래 캐시 숫자를 +1 하세요 (buddha-v13 → v14) */
+const CACHE = 'buddha-v13';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {
