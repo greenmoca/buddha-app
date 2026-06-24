@@ -2,6 +2,12 @@
   <img src="banner.png" alt="지금, 붓다라면 — 현대 사회를 부처님의 시선으로 비추는 앱" width="100%">
 </p>
 
+<p align="center">
+  <a href="https://greenmoca.github.io/buddha-app/"><strong>🔗 앱 바로가기 — 지금 열기</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://greenmoca.github.io/buddha-app/?view=daily">📿 오늘의 법문</a>
+</p>
+
 # 지금, 붓다라면 — 현대 사회를 부처님의 시선으로 비추는 앱
 
 뉴스 기사나 고민 상황을 입력하면 불교적 관점으로 분석하고, 실제 경전 구절과 실천 방법을 제시하는 웹앱입니다. **API 키 없이, 인터넷 없이도 동작**하며, 폰에 앱처럼 설치할 수 있습니다.
